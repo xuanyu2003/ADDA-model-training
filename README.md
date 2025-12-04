@@ -1,65 +1,47 @@
-ADDA: MNIST → USPS Domain Adaptation (Colab GPU)
+# ADDA: MNIST → USPS Domain Adaptation
+*PyTorch · Google Colab GPU · Adversarial Learning*
 
-This project implements ADversarial Domain Adaptation (ADDA) to transfer a classifier trained on MNIST (source domain) to USPS (target domain).
-The method trains:
+![Python](https://img.shields.io/badge/Python-3.10-blue.svg)
+![PyTorch](https://img.shields.io/badge/PyTorch-ADDA-orange.svg)
+![Colab](https://img.shields.io/badge/Run%20on-Colab-yellow.svg)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1_GcIWExywUmpGBXLuWKvryhNJ_eAWdJX?usp=sharing)
 
-A source encoder + classifier on MNIST.
+This project implements **ADversarial Domain Adaptation (ADDA)** to transfer a digit classifier trained on **MNIST (source)** to **USPS (target)**.  
+Using a lightweight CNN and adversarial feature alignment, the adapted model reaches **~95% accuracy** on USPS.  
+Designed to run efficiently on **Google Colab GPU**.
 
-A target encoder initialized from the source encoder.
+---
 
-A domain discriminator trained adversarially to align MNIST and USPS latent feature distributions.
+## 🚀 Features
+- Full ADDA pipeline implemented in PyTorch  
+- MNIST → USPS domain adaptation  
+- GPU-accelerated training on Google Colab  
+- Latent feature extraction from encoders  
+- t-SNE visualizations: before & after adaptation  
+- Checkpoint saving:
+  - `src_encoder.pth`
+  - `tgt_encoder_adapted.pth`
+  - `classifier.pth`
 
-The experiment is implemented in PyTorch and runs efficiently on Google Colab GPU.
-After adaptation, the model achieves ~95% accuracy on USPS.
+---
 
-🚀 Features
+## 📌 Method Overview
 
-Full ADDA pipeline (PyTorch)
+### 1. Source Pretraining
+Train a CNN encoder + classifier on MNIST to learn clean, discriminative features.
 
-MNIST → USPS domain adaptation
+### 2. Adversarial Adaptation
+Freeze the source encoder and train:
+- a **domain discriminator** (source vs. target)  
+- a **target encoder** to fool the discriminator  
 
-GPU-accelerated training in Google Colab
+This aligns USPS features with the MNIST feature space.
 
-Latent feature extraction from encoder
+### 3. Target Classification
+Use the MNIST-trained classifier directly on adapted USPS features.
 
-Two t-SNE visualizations:
+---
 
-Initial USPS features (before ADDA)
-
-Adapted USPS features (after ADDA)
-
-Model checkpoint saving:
-
-src_encoder.pth
-
-tgt_encoder_adapted.pth
-
-classifier.pth
-
-📌 Method Overview
-
-ADDA follows a three-stage training process:
-
-1. Source Pretraining
-
-Train a CNN encoder + classifier on MNIST (supervised).
-This encoder represents clean, well-separated digit features.
-
-2. Adversarial Adaptation
-
-Freeze the source encoder.
-Train:
-
-A discriminator to classify source vs target latent features.
-
-A target encoder to fool the discriminator (make USPS features look like MNIST features).
-
-This aligns the latent feature spaces.
-
-3. Target Classification
-
-After adaptation, the same MNIST-trained classifier is used to classify USPS images.
-
-This achieves ~95% USPS accuracy with a lightweight architecture.
 <img width="1104" height="563" alt="minist-usps" src="https://github.com/user-attachments/assets/cb387611-4d98-463e-8ec8-3c4ab134b78a" />
 
